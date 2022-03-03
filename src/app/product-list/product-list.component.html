@@ -2,12 +2,17 @@
 
 <div *ngFor="let product of products">
   <h3>
-    <a [title]="product.name + ' details'">{{ product.name }}</a>
+    <a
+      [title]="product.name + ' details'"
+      [routerLink]="['/products', product.id]"
+    >
+      {{ product.name }}
+    </a>
   </h3>
 
   <p *ngIf="product.description">Description: {{ product.description }}</p>
 
-  <button mat-raised-button color="primary" type="button" (click)="shared()">
+  <button nbButton status="primary" type="button" (click)="shared()">
     Share
   </button>
   <br />

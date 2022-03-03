@@ -1,7 +1,11 @@
-<a [routerLink]="['/']">
-  <h1>My store</h1>
-</a>
+<nb-layout-column>
+  <a [routerLink]="['/']">
+    <h1>My store</h1>
+  </a>
+</nb-layout-column>
 
-<button mat-raised-button color="white">
-  <i class="material-icons">shopping_cart</i>Checkout
-</button>
+<nb-layout-column>
+  <a routerLink="/cart" nbButton>
+    <nb-icon icon="shopping-cart-outline"></nb-icon>Checkout
+  </a>
+</nb-layout-column>
