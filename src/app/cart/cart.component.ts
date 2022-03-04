@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { comparePassword, forbiddenNameValidator } from '../common/functions';
 import { CartService } from '../services/cart.service';
-import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-cart',
@@ -8,19 +9,43 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
+  checkoutForm!: FormGroup;
+
   constructor(
     private cartService: CartService,
     private formBuidler: FormBuilder
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.checkoutForm = this.formBuidler.group({
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.pattern('^[a-zA-Z]+'),
+          forbiddenNameValidator(['admin', 'manager']),
+        ],
+      ],
+      address: ['', [Validators.required, Validators.minLength(4)]],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-z-]+.[a-z-.]+$'),
+        ],
+      ],
+      pw: this.formBuidler.group(
+        {
+          password: ['', [Validators.required, Validators.minLength(8)]],
+          confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
+        },
+        { validators: comparePassword }
+      ),
+    });
+  }
 
   items = this.cartService.getItems();
-
-  checkoutForm = this.formBuidler.group({
-    name: '',
-    address: '',
-  });
 
   onSubmit() {
     this.items = this.cartService.clearCart();

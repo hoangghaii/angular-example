@@ -14,7 +14,6 @@
     <label for="name">Name</label>
     <input
       type="text"
-      name="name"
       id="name"
       formControlName="name"
       nbInput
@@ -22,13 +21,31 @@
       shape="semi-round"
       status="primary"
     />
+    <div
+      *ngIf="
+        (checkoutForm.get('name')?.invalid &&
+          checkoutForm.get('name')?.dirty) ||
+        checkoutForm.get('name')?.touched
+      "
+      class="alert alert-danger"
+    >
+      <div *ngIf="checkoutForm.hasError('required', ['name'])">
+        Name is required.
+      </div>
+
+      <div *ngIf="checkoutForm.hasError('minlength', ['name'])">
+        Name must be at least 4 characters long.
+      </div>
+      <div *ngIf="checkoutForm.hasError('forbiddenName', ['name'])">
+        Name cannot be admin or manager.
+      </div>
+    </div>
   </div>
 
   <div>
     <label for="address">Address</label>
     <input
       type="text"
-      name="address"
       id="address"
       formControlName="address"
       nbInput
@@ -36,6 +53,86 @@
       shape="semi-round"
       status="primary"
     />
+    <div
+      *ngIf="
+        (checkoutForm.get('address')?.invalid &&
+          checkoutForm.get('address')?.dirty) ||
+        checkoutForm.get('address')?.touched
+      "
+      class="alert alert-danger"
+    >
+      <div *ngIf="checkoutForm.hasError('required', ['address'])">
+        Address is required.
+      </div>
+
+      <div *ngIf="checkoutForm.hasError('minlength', ['address'])">
+        Address must be at least 4 characters long.
+      </div>
+    </div>
+  </div>
+
+  <div formGroupName="pw">
+    <div>
+      <label for="password">Password</label>
+      <input
+        type="text"
+        id="password"
+        formControlName="password"
+        nbInput
+        fullWidth
+        shape="semi-round"
+        status="primary"
+      />
+      <div
+        *ngIf="
+          (checkoutForm.get('pw.password')?.invalid &&
+            checkoutForm.get('pw.password')?.dirty) ||
+          checkoutForm.get('pw.password')?.touched
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="checkoutForm.hasError('required', 'pw.password')">
+          Password is required.
+        </div>
+
+        <div *ngIf="checkoutForm.hasError('minlength', 'pw.password')">
+          Password must be at least 8 characters long.
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="confirmPassword">Confirm password</label>
+      <input
+        type="text"
+        id="confirmPassword"
+        formControlName="confirmPassword"
+        nbInput
+        fullWidth
+        shape="semi-round"
+        status="primary"
+      />
+      <div
+        *ngIf="
+          (checkoutForm.get('pw.confirmPassword')?.invalid &&
+            checkoutForm.get('pw.confirmPassword')?.dirty) ||
+          checkoutForm.get('pw.confirmPassword')?.touched
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="checkoutForm.hasError('required', 'pw.confirmPassword')">
+          Confirm password is required.
+        </div>
+
+        <div *ngIf="checkoutForm.hasError('minlength', 'pw.confirmPassword')">
+          Confirm password must be at least 8 characters long.
+        </div>
+      </div>
+    </div>
+
+    <div class="col alert alert-danger" *ngIf="checkoutForm.get('pw')?.errors">
+      Password does not match!
+    </div>
   </div>
 
   <button
@@ -48,3 +145,4 @@
     Purchase
   </button>
 </form>
+<!-- [disabled]="!checkoutForm.valid" -->
